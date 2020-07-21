@@ -7,8 +7,8 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-app.post('/', (req, res) => {
-    res.send(req.body);
-})
+const router = require('./route/route.js')
+
+app.use('/', router);
 
 app.listen(port, () => console.log(`listening on port ${port}`));
