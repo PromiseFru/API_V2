@@ -5,11 +5,21 @@ const router = express.Router();
 router.post('/', [
     check('content-type')
         .equals('application/json')
-        .withMessage('Has to be JSON only')
+        .withMessage('Data input Has to be JSON only')
     ] ,(req, res) => {
-        const errors = validationResult(req);
+        const myValidationResult = validationResult.withDefaults({
+            formatter: (error) => {
+              return {
+                error: error.msg,
+              };
+            }
+          });
+
+        const errors = myValidationResult(req);
         if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+            res.status(400);
+            let errorString = JSON.stringify(errors.array());
+            res.send(`<h1><center>${errorString}</h1>`);
         }
         res.send(req.body)
 })
