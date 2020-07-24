@@ -2,8 +2,13 @@ const { check, validationResult } = require('express-validator');
 
 const userValidationRules = () => {
     return [
-      check('content-type').equals('application/json')
-        .withMessage('JSON file only please!'),
+        check('content-type').equals('application/json')
+            .withMessage('JSON file only please!'),
+        check('name')
+          .notEmpty()
+            .withMessage('Cannot be empty')
+          .isAlpha()
+            .withMessage('String only please')
     ]
   }
   
